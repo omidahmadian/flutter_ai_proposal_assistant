@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ai_proposal_assistant/pages/HomePage.dart';
+import 'package:flutter_ai_proposal_assistant/pages/home_page.dart';
 
 
 

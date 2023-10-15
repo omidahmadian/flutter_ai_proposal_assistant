@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
 
-
   final String title;
 
   @override
@@ -11,12 +10,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  String _generatedProposal = "";
 
-  void _incrementCounter() {
+  final _myController = TextEditingController();
+
+  void _generateProposal() {
     setState(() {
-      _counter++;
+      _generatedProposal = _myController.text;
     });
+  }
+
+  @override
+  void dispose() {
+    _myController.dispose();
+    super.dispose();
   }
 
   @override
@@ -30,20 +37,28 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: TextField(
+                controller: _myController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter a search term',
+                ),
+              ),
             ),
             Text(
-              '$_counter',
+              _generatedProposal,
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            ElevatedButton(
+              child: const Text('Generate Proposal'),
+              onPressed: () {
+                _generateProposal();
+              },
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment2',
-        child: const Icon(Icons.add),
       ),
     );
   }
