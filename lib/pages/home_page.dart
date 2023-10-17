@@ -49,10 +49,117 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // impelement a function to copy _generatedProposal value to clipboard
+  void copyToClipboard() {
+    // implement copy to clipboard code
+    
+  }
+
   @override
   void dispose() {
     _myController.dispose();
     super.dispose();
+  }
+
+  Widget _getLeftColumn(context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      color: Colors.amberAccent,
+      width: MediaQuery.of(context).size.width / 2,
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Enter your job post here',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const SizedBox(height: 10),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
+              ),
+            ),
+            height: MediaQuery.of(context).size.height / 3,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: TextField(
+                controller: _myController,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Enter a search term',
+                ),
+              ),
+            ),
+          ),
+          IconButton(onPressed:()=>{copyToClipboard()} ,icon: const Icon(Icons.copy),),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                child: Text(
+                  _generatedProposal,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 40,
+            child: ElevatedButton(
+              child: const Text(
+                'Generate Proposal',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: () async {
+                await _generateProposal();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _getRightColumn(context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      color: Colors.greenAccent,
+      width: MediaQuery.of(context).size.width / 2,
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                TextField(
+                  controller: _apikeyController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter apikey here',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 40,
+            child: ElevatedButton(
+              child: const Text('Save Settings'),
+              onPressed: () async {
+                await _generateProposal();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -62,42 +169,11 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: TextField(
-                controller: _apikeyController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter apikey here',
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: TextField(
-                controller: _myController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter a search term',
-                ),
-              ),
-            ),
-            Text(
-              _generatedProposal,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            ElevatedButton(
-              child: const Text('Generate Proposal'),
-              onPressed: () async {
-                await _generateProposal();
-              },
-            ),
-          ],
-        ),
+      body: Row(
+        children: [
+          _getLeftColumn(context),
+          _getRightColumn(context),
+        ],
       ),
     );
   }

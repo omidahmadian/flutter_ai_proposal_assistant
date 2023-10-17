@@ -10,15 +10,17 @@ void main() {
 class ProposalApp extends StatelessWidget {
   const ProposalApp({super.key});
 
+  final String _appTitle = 'Upwork proposal writer assistant';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Upwork proposal writer assistant',
+      title: _appTitle,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(title: _appTitle),
     );
   }
 }
